@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Virtual Study Room — Pro</title>
+
+  <!-- Favicons / meta -->
+  <meta name="description" content="Virtual Study Room — Pomodoro, goals, stats, ambience & focus tools">
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- External libs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <h1>Virtual Study Room</h1>
+        <small class="muted">Focus • Track • Improve</small>
+      </div>
+
+      <div class="controls-top">
+        <label for="ambient">Ambience:</label>
+        <select id="ambient" aria-label="Choose ambience">
+          <option value="ambience-1">Cozy Library</option>
+          <option value="ambience-2">Calm Night</option>
+          <option value="ambience-3">Sunrise</option>
+          <option value="image">Custom Image...</option>
+        </select>
+
+        <label for="sound">Sound:</label>
+        <select id="sound" aria-label="Ambient sound">
+          <option value="">None</option>
+          <option value="rain.mp3">Rain</option>
+          <option value="lofi.mp3">Lo-Fi</option>
+          <option value="coffee.mp3">Coffee Shop</option>
+          <option value="forest.mp3">Forest</option>
+        </select>
+
+        <button id="themeToggle" class="btn small" title="Toggle theme">Toggle Theme</button>
+        <input id="imageInput" type="file" accept="image/*" style="display:none"/>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- Timer area -->
+      <section class="timer-card">
+        <div class="modes" role="tablist">
+          <button data-mode="study" class="mode-btn active">Study</button>
+          <button data-mode="short" class="mode-btn">Short Break</button>
+          <button data-mode="long" class="mode-btn">Long Break</button>
+        </div>
+
+        <div class="timer-display" title="Click to toggle focus mode">
+          <svg class="progress-ring" width="180" height="180" viewBox="0 0 160 160" role="img" aria-label="timer progress">
+            <circle class="ring-bg" stroke-width="10" r="70" cx="80" cy="80"/>
+            <circle class="ring" stroke-width="10" r="70" cx="80" cy="80"/>
+          </svg>
+
+          <div class="time-row">
+            <div class="time" id="timeDisplay">25:00</div>
+            <div class="streak-box">🔥 Streak: <span id="streakDisplay">0</span></div>
+          </div>
+
+          <div id="quoteBox" class="quote">Small progress is still progress.</div>
+        </div>
+
+        <div class="timer-actions">
+          <button id="startBtn" class="btn primary">Start</button>
+          <button id="pauseBtn" class="btn">Pause</button>
+          <button id="resetBtn" class="btn">Reset</button>
+        </div>
+
+        <div class="session-info">
+          <div>Sessions today: <span id="sessionCount">0</span></div>
+          <div>Completed pomodoros: <span id="completedCount">0</span></div>
+        </div>
+
+        <details class="settings">
+          <summary>Settings (durations)</summary>
+          <div class="settings-grid">
+            <label>Study (min): <input id="studyMin" type="number" min="1" value="25"></label>
+            <label>Short break (min): <input id="shortMin" type="number" min="1" value="5"></label>
+            <label>Long break (min): <input id="longMin" type="number" min="1" value="15"></label>
+            <button id="saveSettings" class="btn">Save</button>
+          </div>
+        </details>
+
+        <div class="notes-section">
+          <h3>Session Notes</h3>
+          <textarea id="sessionNotes" placeholder="Quick notes for this session..."></textarea>
+        </div>
+      </section>
+
+      <!-- Right column -->
+      <aside class="right-col">
+        <section class="goals-card">
+          <div class="goals-head">
+            <h2>Daily Goals</h2>
+            <small class="muted">Organize & complete</small>
+          </div>
+
+          <form id="goalForm" class="goal-form">
+            <input id="goalInput" placeholder="Add a goal (e.g. finish chapter 3)" />
+            <select id="goalCategory" title="Category">
+              <option>Study</option>
+              <option>Work</option>
+              <option>Personal</option>
+            </select>
+            <button class="btn">Add</button>
+          </form>
+
+          <ul id="goalsList" class="goals-list" aria-live="polite"></ul>
+
+          <div class="goal-summary">
+            <small>Goals completed: <span id="goalsDoneCount">0</span> / <span id="goalsTotal">0</span></small>
+            <div>
+              <button id="clearGoals" class="btn">Clear Done</button>
+            </div>
+          </div>
+        </section>
+        
+        <section class="stats-card">
+          <h2>Productivity Stats</h2>
+          <div id="statsToday">Today's Focus: 0 mins</div>
+          <div id="statsPomodoros">Pomodoros Completed: 0</div>
+          <canvas id="weeklyChart" width="320" height="200" aria-label="weekly progress chart"></canvas>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <small>Tip: Space = Start/Pause · R = Reset · Click ring to enter focus mode</small>
+    </footer>
+  </div>
+  
+
+  <!-- App script -->
+  <script src="script.js" defer></script>
+</body>
+</html>
